@@ -1,3 +1,5 @@
+![mutex](https://raw.githubusercontent.com/lcylichenyi/markdownImage/master/mutex/1_bZHBo75FSyKre5pk2-HPmw.png)
+
 ### 0 前言
 
 我们知道，多线程下为了确保数据不会出错，必须加锁后才能访问共享资源。常见的锁包括互斥锁、自旋锁、读写锁等等，往往需要通过系统内核来实现。
@@ -94,7 +96,7 @@ again:
 
 ### 3 mutex的流程图
 
-#### 上锁：
+#### 上锁
 
 **（流程图使用了flowchart进行绘画）**
 
@@ -241,7 +243,7 @@ func (m *Mutex) Lock() {
 
 
 
-#### 解锁：
+#### 解锁
 
 **（流程图使用了flowchart进行绘画）**
 
@@ -320,3 +322,6 @@ func (m *Mutex) Unlock() {
 
 
 
+### 总结
+
+所以可见golang中的mutex在经过3个版本的迭代之后还是非常优秀的，在考虑了饥饿问题之外也引入了自旋，效率大大提升。
