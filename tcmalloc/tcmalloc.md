@@ -1,6 +1,6 @@
 
 
-![malloc](https://raw.githubusercontent.com/lcylichenyi/markdownImage/master/tcmalloc/12c2431c5746c32a5e9030ecaa2f076f492afef8.png)
+![12c2431c5746c32a5e9030ecaa2f076f492afef8](/Users/lichenyi/go/src/lcy/markdownImage/tcmalloc/12c2431c5746c32a5e9030ecaa2f076f492afef8.png)
 
 （Ps：全篇读完后再回头来看一下封面图）
 
@@ -18,7 +18,7 @@ PTmalloc, TCMalloc和JEMalloc都属于C库内存池。几乎所有程序都在�
 
 
 
-![概括](https://raw.githubusercontent.com/lcylichenyi/markdownImage/master/tcmalloc/893edd82d03c628fae83b95bd4fbba6a.jpg)
+![893edd82d03c628fae83b95bd4fbba6a](/Users/lichenyi/go/src/lcy/markdownImage/tcmalloc/893edd82d03c628fae83b95bd4fbba6a.jpg)
 
 
 
@@ -28,11 +28,11 @@ PTmalloc, TCMalloc和JEMalloc都属于C库内存池。几乎所有程序都在�
 
 大致来说，就是将内存分成多个不同size的以下的object结构，串成双向链表，放入不同的size bin下。
 
-<img src="https://raw.githubusercontent.com/lcylichenyi/markdownImage/master/tcmalloc/Lark20200724111123.png" alt="tradition" style="zoom:50%;" />
+![image-20200828005808985](/Users/lichenyi/Library/Application Support/typora-user-images/image-20200828005808985.png)
 
 
 
-![freelist](https://raw.githubusercontent.com/lcylichenyi/markdownImage/master/tcmalloc/Lark20200723132010.png)
+![Lark20200723132010](/Users/lichenyi/go/src/lcy/markdownImage/tcmalloc/Lark20200723132010.png)
 
 
 
@@ -62,7 +62,7 @@ data链表需要加上4byte的header与4byte的footer分别指向前后数据，
 
 (2)引入更高级的数据类型包含objects，构建松散链表(此处指span而不是page)。原本的数据结构使用的是双向链表结构，每个元素都需要加头加尾浪费空间。使用松散链表之后可以在提高命中率的同时，节省空间的使用。只需要在更高级的数据结构上带上4byte的头与4byte的尾即可，不用在每个元素上带头带尾。
 
-<img src="https://raw.githubusercontent.com/lcylichenyi/markdownImage/master/tcmalloc/unrolled-linked-list.jpg" alt="unrolled-linked-list" style="zoom:30%;" />
+![unrolled-linked-list](/Users/lichenyi/go/src/lcy/markdownImage/tcmalloc/unrolled-linked-list.jpg)
 
 (3)可人为调整增加整个进程持有的内存数（引入Tcmalloc-Page概念）。
 
@@ -86,7 +86,7 @@ data链表需要加上4byte的header与4byte的footer分别指向前后数据，
 
 不是TLB中的那种page，是TCmalloc-Page，默认8KB（8KB=2^13B，当对page进行切割时，其中的**每一个内存地址，只需要左移13位, 就可以找到其所属的pageId** ）
 
-![unit](https://raw.githubusercontent.com/lcylichenyi/markdownImage/master/tcmalloc/c54e.png)
+![c54e](/Users/lichenyi/go/src/lcy/markdownImage/tcmalloc/c54e.png)
 
 (2)span:由**1个或多个连续的**的page（1～128个）组成，默认8KB～1024KB
 
@@ -102,7 +102,7 @@ data链表需要加上4byte的header与4byte的footer分别指向前后数据，
 
 PageMap缓存了**PageID到Span的对应关系**
 
-![map](https://raw.githubusercontent.com/lcylichenyi/markdownImage/master/tcmalloc/95d2.png)
+![95d2](/Users/lichenyi/go/src/lcy/markdownImage/tcmalloc/95d2.png)
 
 
 
@@ -112,11 +112,11 @@ pageMap的优势：利用了radix-tree，即前缀树。如图不用一开始生
 
 #### 4.tcmalloc（thread-caching malloc）介绍
 
-![internal](https://raw.githubusercontent.com/lcylichenyi/markdownImage/master/tcmalloc/tcmalloc_internals.png)
+![tcmalloc_internals](/Users/lichenyi/go/src/lcy/markdownImage/tcmalloc/tcmalloc_internals.png)
 
 
 
-![概括](https://raw.githubusercontent.com/lcylichenyi/markdownImage/master/tcmalloc/1e4e.jpg)
+![1e4e](/Users/lichenyi/go/src/lcy/markdownImage/tcmalloc/1e4e.png)
 
 
 
@@ -126,7 +126,7 @@ pageMap的优势：利用了radix-tree，即前缀树。如图不用一开始生
 
 **（1）Per-thread模式**
 
-![front-end](https://raw.githubusercontent.com/lcylichenyi/markdownImage/master/tcmalloc/a70.png)
+![a70](/Users/lichenyi/go/src/lcy/markdownImage/tcmalloc/a70.png)
 
 在线程模式下，每一个线程都有自己的缓存(最小512KB)。
 
@@ -146,7 +146,7 @@ pageMap的优势：利用了radix-tree，即前缀树。如图不用一开始生
 
 **（2）Per-CPU模式**
 
-![per-cpu](https://raw.githubusercontent.com/lcylichenyi/markdownImage/master/tcmalloc/per-cpu-cache-internals.png)
+![per-cpu-cache-internals](/Users/lichenyi/go/src/lcy/markdownImage/tcmalloc/per-cpu-cache-internals.png)
 
 
 
@@ -158,7 +158,7 @@ restartable sequences有点像一个函数，可以由一系列CPU指令构成�
 
 ##### 3.2 middle-end(非线程安全，需要spin-lock)
 
-![pageMap](https://raw.githubusercontent.com/lcylichenyi/markdownImage/master/tcmalloc/f821.png)
+![f821](/Users/lichenyi/go/src/lcy/markdownImage/tcmalloc/f821.png)
 
 **组成(1个freeList+1个transfer-cache)：**
 
@@ -180,7 +180,7 @@ restartable sequences有点像一个函数，可以由一系列CPU指令构成�
 
 ##### 3.3 back-end
 
-![pageheap](https://raw.githubusercontent.com/lcylichenyi/markdownImage/master/tcmalloc/51ba.png)
+![51ba](/Users/lichenyi/go/src/lcy/markdownImage/tcmalloc/51ba.png)
 
 **组成（一个基本单位为page的free-list加一个span set）：**
 
